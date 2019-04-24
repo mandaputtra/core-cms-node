@@ -1,0 +1,132 @@
+div.note .card-header .card-actions a {
+  padding: .35rem 0;
+  width: 57px;
+}
+
+div.note .card-header {
+  padding: .05rem .5rem;
+  min-height: 28px;
+}
+
+div.note .card-body {
+  padding: .8rem .8rem 0;
+}
+
+div.note .card-header .card-actions a:hover {
+  text-decoration: underline;
+  color: #151b1e;
+  cursor: pointer;
+}
+
+div.note a, .font-smaller {
+  font-size: .75rem;
+}
+
+div.note button {
+  padding: .15rem .25rem;
+}
+
+.note-editor.note-frame.card {
+  margin: .25rem 0;
+}
+
+.modal-btn {
+  color: #fff;
+  cursor: pointer;
+}
+
+.scroll-sm {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.scroll-md {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.scroll-lg {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  border: 1px solid #c2cfd6;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.change-order-btn {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.logo-bottom {
+  background-image: url("/static/img/skyshi-logo.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: block;
+  width: 84px;
+  height: 50px;
+  padding: 0.5rem 1rem;
+  background-size: 70px auto;
+}
+
+th a div {
+  margin-left: 1rem;
+  position: relative;
+  display: inline;
+}
+
+th div i.fa {
+  position: absolute;
+  right: 0;
+  font-size: 1rem;
+}
+
+th div i:first-child {
+  top: 0;
+}
+
+th div i:last-child {
+  bottom: 0;
+}
+
+th a:hover, li a {
+  cursor: pointer;
+}
+
+#saveNote, #cancelNote {
+  padding: 0 8px;
+  font-size: .82rem;
+}
+
+.card-head-add {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 7rem;
+  padding: 0.75rem 0;
+  color: #151b1e;
+  text-align: center;
+  border-left: 1px solid #c2cfd6;
+}
+
+th.action-col {
+  width: 8.5rem;
+}
+
+.form-control:disabled {
+  background-color: #fff;
+}
+
+.select2-search__field {
+  width: 200px !important;
+}
+
+th.action-col.last-update-by {
+  width: 150px;
+}

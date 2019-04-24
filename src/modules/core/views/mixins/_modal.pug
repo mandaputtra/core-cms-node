@@ -1,0 +1,16 @@
+mixin modal(title, text, id, type)
+  .modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true' id=!id ? 'myModal' : id[0])
+    .modal-dialog(class=`modal-${type}` role='document')
+      .modal-content
+        .modal-header
+          h4.modal-title= title
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          | #{text}
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+          a.btn.modal-btn(class=`btn-${type}` id=!id ? 'modalBtn' : id[1]) Proceed
+
+mixin deleteModal(title, text, id)
+  +modal(title, text, id, 'danger')

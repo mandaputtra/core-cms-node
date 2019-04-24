@@ -1,0 +1,48 @@
+extends ../../core/views/layouts/default.pug
+
+include ../../core/views/mixins/_alert.pug
+include ../../core/views/mixins/_modal.pug
+include ../../core/views/mixins/_pagination.pug
+
+block content
+  .row
+    .col-md-12
+      .card
+        .card-header User List
+          if userPermissions.includes(permissions.USER_ADD)
+            a.card-head-add(href=`${link}/add`)
+              i.icon-plus.mr-1
+              | Add New
+        .card-body
+          +alert(flashes)
+          .table-responsive
+            table.table.table-bordered.table-striped
+              thead
+                tr
+                  th Name
+                  th Initial
+                  th Email
+                  th Role
+                  if userPermissions.includes(permissions.USER_EDIT) || userPermissions.includes(permissions.USER_DELETE)
+                    th.action-col Action
+              tbody
+                - let order = 0
+                each user in users
+                  tr
+                    td= user.name
+                    td= user.initial
+                    td= user.email
+                    td= user.role.name
+                    if userPermissions.includes(permissions.USER_EDIT) || userPermissions.includes(permissions.USER_DELETE)
+                      td
+                        if userPermissions.includes(permissions.USER_EDIT)
+                          a.btn.btn-sm.btn-primary.mr-1(href=`${link}/edit/${user.id}`) Edit
+                        if userPermissions.includes(permissions.USER_DELETE)
+                          button.btn.btn-sm.btn-danger(onclick=`$("#modalBtn").attr("href", "${link}/delete/${user.id}")` data-toggle='modal' data-target='#myModal') Delete
+                    - order += 1
+            +pagination()
+
+      +deleteModal('Delete User', 'Are you sure?')
+
+block script
+  +paginationInit(link)

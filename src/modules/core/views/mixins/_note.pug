@@ -1,0 +1,319 @@
+mixin notesHead()
+  link(href='/static/css/summernote-bs4.css' rel='stylesheet')
+
+mixin notes(statusTitle)
+  #showNotes.form-control.scroll-lg.mb-2(class=notes && notes.length ? '' : 'd-none')
+    if notes
+      each note, index in notes
+        - const noteId = `note${index + 1}`
+        .card.theNotes.mb-1(id=noteId)
+          .card-header
+            if note.created_by
+              p.mb-0.mt-1.font-smaller
+                | #{note.updated_at},
+                != ' ' + note.created_by
+              .card-actions
+                a(data-toggle='modal' data-target='#myModal' onclick=`$('#modalBtn').attr('onclick', 'deleteEditNote(event, \\'#${noteId}\\')')`) Delete
+                a(onclick=`editNote(event, '#${noteId}', 'edit')`) Edit
+                input(type='hidden' name='unedited' value=note.id)
+            else
+              p.mb-0.mt-1.font-smaller= statusTitle
+              .card-actions
+                input(type='hidden' name='ignore' value='ignore')
+          .card-body
+            != note.text
+  #summernote.mb-2.mt-1.d-none
+  button#saveNote(onclick='addNote(event)' ) Add Note
+  button#cancelNote.d-none Cancel
+
+mixin viewNotes(statusTitle)
+  .form-control.scroll-lg
+    if notes
+      each note in notes
+        .card.theNotes.mb-1(id=noteId)
+          .card-header
+            if note.created_by
+              p.mb-0.mt-1.font-smaller
+                | #{note.updated_at},
+                != ' ' + note.created_by
+            else
+              p.mb-0.mt-1.font-smaller= statusTitle
+          .card-body
+            != note.text
+
+mixin notesScript()
+  script(src='/static/components/summernote-bs4.min.js')
+  script(src='/static/components/store.legacy.min.js')
+  script(type='text/javascript').
+    let key = window.location.href
+        key = key.replace('?', '')
+    const notes = []
+    var notesBody = []
+    store.each(function(invalue, inkey) {
+      let i = 1
+      if (inkey.search(key) > -1 && inkey.search('add') > -1) {
+        notesBody.push({ value: invalue.data, key: inkey })
+        //- if (inkey.search('add') > -1) {
+        //-   addContent(undefined, invalue, inkey);
+        //- }
+
+        //- if (inkey.search('edit') > -1) {
+        //-   changeContent(undefined, '#note' + i, 'edit', invalue);
+        //- }
+      }
+      if (inkey.search(key) > -1 && inkey.search('edit') > -1) {
+        if (invalue.type === "add") {
+          addContent(undefined, invalue.data, inkey)
+        }
+        if (invalue.type === "edit") {
+          changeContent(undefined, '#note' + invalue.number, 'edit', invalue.data, inkey, invalue.number);
+        }
+        i++;
+      }
+    })
+    notesBody.reverse().map(body => addContent(undefined, body.value, body.key))
+
+    //- var url = window.location.href.split('//')[1];
+    //- var key = window.location.href.split('//')[1] + '.NOTES';
+
+    // load note temp
+    //- $(function () {
+    //-   if (localStorage[url] === 'delete') {
+    //-     deleteLocalTemp();
+    //-     delete localStorage[url];
+
+    //-     var type = url.split('/').pop();
+    //-     if (type === 'add') {
+    //-       $('input.form-control').val('');
+    //-       $('textarea.form-control').html('');
+    //-     }
+    //-   } else {
+    //-     var notes = (localStorage[key] && JSON.parse(localStorage[key])) || {};
+        //- for (var id in notes) {
+        //-   var content = notes[id].content;
+        //-   var type = notes[id].type;
+        //-   if (type === 'add') addContent(undefined, content);
+        //-   if (type === 'edit') changeContent(undefined, '#note' + id, type, content);
+        //- }
+
+    //-     // initialize summernote with content
+    //-     if (localStorage[key + 'SUMMER']) $('#summernote').html(localStorage[key + 'SUMMER']);
+    //-   }
+
+    //-   // Save summernote periodically
+    //-   setInterval(function() {
+    //-     var thisKey = key + 'SUMMER';
+    //-     if ($('.note-editor').length) localStorage[thisKey] = $('#summernote').summernote('code');
+    //-   }, 3000);
+    //- });
+
+    function initSummernote() {
+      var $note = $('#summernote');
+      $note.summernote({
+        placeholder: 'Note..',
+        tabsize: 2,
+        height: 170,
+        toolbar: [
+          ['style', ['bold', 'italic', 'underline']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['fontsize', ['fontsize']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['table', ['table']],
+          ['insert', ['link', 'hr']]
+        ]
+      });
+      return $note;
+    }
+
+    function cancelNote(e) {
+      if (e) e.preventDefault();
+      var $notes = $('#summernote');
+      var theNotes = $('.theNotes').length;
+      var $showNotes = $('#showNotes');
+      var $saveNote = $('#saveNote');
+      if (theNotes > 0) $showNotes.removeClass('d-none');
+      else $showNotes.addClass('d-none');
+
+      $('.note-editable').empty();
+      $notes.summernote('destroy');
+      $saveNote.html('Add Note');
+      $saveNote.attr('onclick', 'addNote(event)');
+      $('#cancelNote').addClass('d-none');
+      // delete note temp
+      //- delete localStorage[key + 'SUMMER'];
+    }
+
+    function addNote(e) {
+      e.preventDefault();
+      var $saveNote = $('#saveNote');
+      $saveNote.html('Save');
+      $saveNote.attr('onclick', 'addContent(event)');
+      $('#cancelNote').removeClass('d-none');
+      initSummernote()
+    }
+
+    function addContent(e, note, inKey) {
+      var $showNotes = $('#showNotes');
+      var content = note || $('#summernote').summernote('code');
+      var $theNotes = $('.theNotes');
+
+      if (e) e.preventDefault()
+      if (content === '<p><br></p>') {
+        return;
+      }
+
+      //- console.log('TEST', $theNotes);
+      var len = inKey ? inKey : key + $theNotes.length
+      var id = $theNotes.length
+      const payloadAdd = { number: id, type:"add", data: content}
+        // Add unique id, handle when deleting div node so the number doesn't repeat
+        //- : Number($theNotes.filter(':last').attr('id').replace('note', '')) + 1;
+      $showNotes.removeClass('d-none');
+      $showNotes.prepend('<div class="card theNotes mb-1" id="note' + id + '">' +
+          '<div class="card-header">' +
+            '<div class="card-actions">' +
+              '<a data-toggle="modal" data-target="#myModal" onclick="$(\'#modalBtn\').attr(\'onclick\', \'deleteNote(event, \\\'#note' + id + '\\\')\')">Delete</a>' +
+              '<a onclick="editNote(event, \'#note' + id + '\')">Edit</a>' +
+            '</div>' +
+          '</div>' +
+          '<div class="card-body">' + content + '</div>' +
+          '<div class="content d-none"><textarea class="notes-list" name="notes[]">' + content + '</textarea></div>' +
+        '</div>');
+
+        store.set(len, payloadAdd)
+        cancelNote(e)
+    }
+
+    function addNoteTemp(id, content) {
+      var current = (localStorage[key] && JSON.parse(localStorage[key])) || {};
+      current[id] = { type: 'add', content: content };
+      localStorage[key] = JSON.stringify(current);
+    }
+
+    function editNote(e, note, type) {
+      e.preventDefault();
+      if (content === '<p><br></p>') {
+        return;
+      }
+
+      var content = $(note + ' .card-body').html();
+      var $saveNote = $('#saveNote');
+      initSummernote().summernote('code', content);
+      $saveNote.html('Save');
+      $saveNote.attr('onclick', 'changeContent(event, \'' + note + '\', \'' + type + '\')');
+      $('#cancelNote').removeClass('d-none');
+    }
+
+    function changeContent(e, note, type, value, inKey, indexEdited) {
+      if (e) e.preventDefault();
+      var content = value || $('#summernote').summernote('code');
+      if (!content || content === '<p><br></p>' ) {
+        return;
+      }
+      if (!inKey) {
+        var id = $(note).prop('id').replace('note', '');
+        const payloadEdit = { number: id, type:"edit", data: content}
+        store.set(key + id, payloadEdit)
+      }
+      if (inKey) {
+        var id = indexEdited;
+      }
+      $(note + ' .card-body').html(content);
+      if (type === 'edit' && $(note + ' .content').length === 0) {
+        $(note).append('<div class="content d-none">' +
+            '<textarea name="editedNote['+ id +'][text]"></textarea>' +
+        '</div>');
+        $(note + ' .card-actions input').attr('name', 'editedNote['+ id +'][id]');
+      }
+      $(note + ' .content textarea').val(content);
+      cancelNote();
+    }
+
+    function editNoteTemp(id, content) {
+      var current = (localStorage[key] && JSON.parse(localStorage[key])) || {};
+      current[id] = {type: 'edit', content: content};
+      localStorage[key] = JSON.stringify(current);
+    }
+
+    function deleteNote(e, note) {
+      e.preventDefault();
+      var id = $(note).prop('id').replace('note', '');
+      $(note).remove();
+      if ($('.theNotes').length === 0) $('#showNotes').addClass('d-none');
+      $('#myModal').modal('hide');
+      store.remove(key + id)
+    }
+
+    function deleteNoteTemp(id) {
+      var current = (localStorage[key] && JSON.parse(localStorage[key])) || {};
+      delete current[id];
+      localStorage[key] = JSON.stringify(current);
+    }
+
+    function deleteLocalTemp() {
+      var summerKey = key + 'SUMMER';
+      delete localStorage[key];
+      delete localStorage[summerKey];
+    }
+
+    function deleteEditNote(e, note) {
+      var val = $(note).find('.card-actions input').val();
+      $('form').append('<input type="hidden" name="deletedNote[]" value="' + val + '" />');
+      deleteNote(e, note);
+    }
+
+    $('#cancelNote').click(function(e) {
+      cancelNote(e)
+    });
+
+    $('#cancel').click(function (e) {
+      e.preventDefault();
+      deleteLocalTemp();
+      window.location.href = $(this).attr('href');
+    });
+
+    var submitForm = false;
+    $('#submit').click(function (e) {
+      e.preventDefault();
+      if (submitForm === true) return false;
+      submitForm = true;
+      var form = $('#fst-form');
+      form = form.length ? form : $('.fst-form');
+      var url = form.attr('action');
+      // The code is on the main view page
+      if (beforeSubmit !== undefined) beforeSubmit();
+      var formData = form.serializeArray();
+      $.post(url, formData)
+        .done(function (data) {
+          var uploadForm = $('#upload-form');
+          uploadForm.attr('action', data.data.link);
+          //data.data.input.push({ name: 'deleteTemp', val: url });
+          data.data.input.forEach(function (input) {
+            uploadForm.append('<input name="' + input.name + '" value="' + input.val + '" type="hidden" />')
+          });
+          store.clearAll()
+          uploadForm.submit();
+        })
+        .fail(function (res) {
+          var data = res.responseJSON;
+          submitForm = false;
+          $('.delete-fail').remove();
+          $('.card-body:first').prepend('<div class="alert alert-dismissible fade show alert-' + data.alert + '" role="alert">' +
+            '<button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>' +
+            data.msg +
+            '</div>');
+          $('html, body').animate({ scrollTop: $('.alert').offset().top }, 'fast');
+        });
+    });
+
+    function deleteDocument(e, id) {
+      e.preventDefault();
+      var name = $('#doc' + id + ' input:hidden').val();
+      var len = $('input[name|="deletedDoc"]').length;
+      $('form').append('<input type="hidden" name="deletedDoc[]" value="' + id + '" />');
+      $('#doc' + id).remove();
+      $('#myModal2').modal('hide');
+    }
+

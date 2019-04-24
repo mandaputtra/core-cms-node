@@ -1,0 +1,25 @@
+extends ../../core/views/layouts/narrow.pug
+
+include ../../core/views/mixins/_alert.pug
+
+block content
+  .col-md-5
+    .card-group.mb-0
+      .card.p-4
+        .card-block
+          +alert(flashes)
+          h1.mb-4 Login
+          form(name="signin" action=action method="post")
+            .input-group.mb-3
+              span.input-group-addon
+                i.icon-user
+              input.form-control(type='text', name='email', placeholder='Email')
+            .input-group.mb-4
+              span.input-group-addon
+                i.icon-lock
+              input.form-control(type='password', name='password', placeholder='Password')
+            .row
+              .col-6
+                button.btn.btn-primary.px-4(type='submit') Login
+          p.mt-3.mb-0
+            small Don't have an account? Please contact administrator

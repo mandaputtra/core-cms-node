@@ -1,0 +1,79 @@
+extends ../../core/views/layouts/default.pug
+
+include ../../core/views/mixins/_alert.pug
+
+block content
+  .row
+    .col-md-8.ml-md-auto.mr-md-auto
+      .card
+        .card-header #{type === 'add' ? 'Create' : 'Edit'} User
+        .card-body
+          +alert(flashes)
+          - const action = type === 'add' ? `${link}/add` : `${link}/edit/${person.id}`
+          form.form-horizontal(method='post' action= type === 'profile' ? link : action)
+            .form-group.row
+              label.col-md-3.form-control-label(for='name') Name
+              .col-md-9
+                input#name.form-control(type='text' name='name' placeholder='Enter Name..' value=person ? person.name : '' required)
+            .form-group.row
+              label.col-md-3.form-control-label(for='email') Email
+              .col-md-9
+                input#email.form-control(type='email' name='email' placeholder='Enter Email..' value=person ? person.email : '' required)
+            .form-group.row
+              label.col-md-3.form-control-label(for='initial') Initial
+              .col-md-9
+                input#initial.form-control(type='text' name='initial' placeholder='Enter Initial..' value=person ? person.initial : '' required)
+            .form-group.row
+              label.col-md-3.form-control-label(for='password1') Password
+              .col-md-9
+                input#password1.form-control(type='password' name='password' placeholder=person ? 'Change Password..' : 'Enter Password..' value='')
+                if type === 'edit' || type === 'profile'
+                  span.help-block Leave this field empty if you don't want to change the password
+            .form-group.row
+              label.col-md-3.form-control-label(for='password2') Confirm Password
+              .col-md-9
+                input#password2.form-control(type='password' name='cfmPassword' placeholder=person ? 'Change Password..' : 'Enter Password..')
+            unless type === 'profile'
+              .form-group.row
+                label.col-md-3.form-control-label(for='parent') Role
+                .col-md-9
+                  select.form-control#parent(name='role')
+                    each role in roles
+                      if person && role.id == person.role_id
+                        option(value=role.id selected)= role.name
+                      else
+                        option(value=role.id)= role.name
+            .form-group.form-action.mb-0
+              .col-md-12.d-flex.flex-row-reverse.pr-0
+                button#submit.btn.btn-sm.btn-primary.ml-1(type='submit')= type === 'add' ? 'Create' : 'Save'
+                a.btn.btn-sm.btn-secondary(href=type === 'profile' ? '/' : link) Cancel
+
+block script
+  if type === 'add'
+    script.
+      $('form').submit(function () {
+        var $pass1 = $('#password1');
+        var $pass2 = $('#password2');
+        if ($pass1.val() != $pass2.val() || $pass1.val().trim() === '') {
+          $pass1.addClass('is-invalid');
+          $pass1.after('<div class="invalid-feedback">Password do not match or empty</div>');
+          $pass2.addClass('is-invalid');
+          $pass2.after('<div class="invalid-feedback">Password do not match or empty</div>');
+          return false;
+        }
+        return true
+      });
+  else
+    script.
+      $('form').submit(function () {
+        var $pass1 = $('#password1');
+        var $pass2 = $('#password2');
+        if ($pass1.val().trim !== '' && $pass1.val() != $pass2.val()) {
+          $pass1.addClass('is-invalid');
+          $pass1.after('<div class="invalid-feedback">Password do not match</div>');
+          $pass2.addClass('is-invalid');
+          $pass2.after('<div class="invalid-feedback">Password do not match</div>');
+          return false;
+        }
+        return true
+      });

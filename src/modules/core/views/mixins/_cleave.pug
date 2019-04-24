@@ -1,0 +1,20 @@
+mixin addThousands()
+  script.
+    var pressed = [];
+    $('.nums').change(function () {
+      var idx = $('.nums').index(this);
+      if (pressed[idx]) return false;
+      pressed[idx] = true;
+      var $this = $(this);
+      var val = $this.val();
+      $(this).val(val + ',000,000')
+    });
+
+mixin cleaveScript()
+  script(src='/static/components/cleave.min.js')
+  script.
+    $(function () {
+      $('.nums').each(function () {
+        new Cleave($(this), {numeral: true});
+      });
+    });

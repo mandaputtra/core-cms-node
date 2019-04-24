@@ -1,0 +1,16 @@
+extends ../layouts/narrow.pug
+
+block head
+  style(type='text/css').
+    html, body { height: inherit; }
+    .container { width: 500px !important; margin-top: 60px !important; border-radius: 8px; }
+    .page-title { font-size: 2.4em; color: #ccc; line-height: 1em; }
+    .page-subtitle { font-size: 1.2em; color: #555; line-height: 1em; }
+
+block content
+  .p20
+    h2.page-title 404
+    h3.page-subtitle Not Found
+    hr
+    p
+      | Oops! The page you are looking for does not exists.

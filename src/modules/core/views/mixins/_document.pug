@@ -1,0 +1,30 @@
+mixin document()
+  if documents && documents.length
+    .form-control.scroll-md.mb-2#theDocs
+      each document in documents
+        .card.mb-1(id='doc' + document.id)
+          .card-header
+            p.mb-0.mt-1.font-smaller
+              | #{document.updated_at},
+              != ' ' + document.created_by
+            .card-actions
+              a(data-toggle='modal' data-target='#myModal2' onclick=`$('#modalBtn2').attr('onclick', 'deleteDocument(event, ${document.id})')`) Delete
+              input(type='hidden' value=document.fullname)
+          .card-body
+            p
+              a(href=document.url)= document.name
+  input#documents(type='file' name='documents' multiple style='cursor: pointer;')
+
+mixin viewDocuments()
+  .form-control.scroll-md.mb-2
+    if documents
+      each document in documents
+        .card.mb-1(id='doc' + document.id)
+          .card-header
+            p.mb-0.mt-1.font-smaller
+              | #{document.updated_at},
+              != ' ' + document.created_by
+          .card-body
+            p
+              a(href=document.url)= document.name
+

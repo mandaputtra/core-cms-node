@@ -1,0 +1,15 @@
+extends ../../core/views/layouts/default.pug
+
+include ../../core/views/mixins/_alert.pug
+include ../../core/views/mixins/_select2.pug
+
+block head
+  +select2Css()
+
+block content
+  .row
+    .col-md-12
+      .card
+        .card-header This is dashboard
+        .card-body.d-flex.align-content-center.flex-wrap(style='height: 400px;')
+          +alert(flashes)

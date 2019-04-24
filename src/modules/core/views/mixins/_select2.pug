@@ -1,0 +1,90 @@
+mixin select2Css()
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css' rel='stylesheet')
+
+mixin select2Js()
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js')
+  script.
+    function opt(url, placeholder, len) {
+      return {
+        ajax: {
+          url: url,
+          dataType: 'json',
+          delay: 300,
+          processResults: function (data) {
+            return {results: data.data}
+          },
+          cache: true
+        },
+        width: '100%',
+        placeholder: placeholder,
+        minimumInputLength: len !== undefined ? len : 1
+      };
+    }
+
+    function optTag(url, placeholder) {
+      return {
+        ajax: {
+          url: url,
+          dataType: 'json',
+          delay: 300,
+          processResults: function (data) {
+            return {results: data.data}
+          },
+          cache: true
+        },
+        width: '100%',
+        placeholder: placeholder,
+        minimumInputLength: 0,
+        tags: true
+      };
+    }
+
+    function optMult(placeholder) {
+      return {
+        width: '100%',
+        placeholder: placeholder
+      }
+    }
+
+
+    function optParent(placeholder, keep) {
+      var $data = $('input[name="data"]');
+      var data = JSON.parse($data.val());
+      if (!keep) $data.remove();
+      return {
+        width: '100%',
+        placeholder: placeholder,
+        data: data,
+        escapeMarkup: function (markup) { return markup; },
+        templateResult: function (data) { return data.html; },
+        templateSelection: function (data) { return data.text; }
+      }
+    }
+
+    function optPage(url, placeholder, len) {
+      return {
+        ajax: {
+          url: url,
+          dataType: 'json',
+          delay: 300,
+          data: function (query) {
+            return {
+              q: query.term,
+              page: query.page
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data.data,
+              pagination: {
+                more: data.meta.page < data.meta.pageCount
+              }
+            };
+          },
+          cache: true
+        },
+        width: '100%',
+        placeholder: placeholder,
+        minimumInputLength: len !== undefined ? len : 1
+      };
+    }

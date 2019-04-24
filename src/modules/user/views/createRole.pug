@@ -1,0 +1,52 @@
+extends ../../core/views/layouts/default.pug
+
+include ../../core/views/mixins/_alert.pug
+
+block content
+  .row
+    .col-md-8.ml-md-auto.mr-md-auto
+      .card
+        .card-header #{type === 'add' ? 'Create' : 'Edit'} Role
+        .card-body
+          +alert(flashes)
+          form.form-horizontal(method='post' action= type === 'add' ? `${link}/add` : `${link}/edit/${role.id}`)
+            .form-group.row
+              label.col-md-3.form-control-label(for='name')
+                b Name
+              .col-md-9
+                input#name.form-control(type='text' name='name' placeholder='Enter Name..' value=role ? role.name : '' required)
+            - let count = 1;
+            .col-md-9.ml-auto.px-0.px-md-2.mb-2
+              input(type='checkbox' onclick='toggleRole(this, "input:checkbox")')
+              != ' All Roles'
+            each title in Object.keys(permissionList)
+              .form-group.row.mb-2
+                label.col-md-3.form-control-label(for='name')
+                  b= title
+                .col-md-9
+                  each permission, idx in permissionList[title]
+                    if idx === 0
+                      .checkbox
+                        label(for=`checkbox${count}`)
+                          input(type='checkbox' id=`checkbox${count}` onclick=`toggleRole(this, '.${title.toLowerCase().replace(' ', '-')}-role')`)
+                          != ' All ' + title
+                      - count += 1
+                    .checkbox
+                      label(for=`checkbox${count}`)
+                        if role && role.permissions.includes(permission.id)
+                          input(type='checkbox' id=`checkbox${count}` name='checkboxes[]' class=`${title.toLowerCase().replace(' ', '-')}-role` value=permission.id checked)
+                        else
+                          input(type='checkbox' id=`checkbox${count}` name='checkboxes[]' class=`${title.toLowerCase().replace(' ', '-')}-role` value=permission.id)
+                        != ' ' + permission.name
+                        - count += 1
+            .form-group.form-action.mb-0
+              .col-md-12.d-flex.flex-row-reverse.pr-0
+                button#submit.btn.btn-sm.btn-primary.ml-1(type='submit')= type === 'add' ? 'Create' : 'Save'
+                a.btn.btn-sm.btn-secondary(href=link) Cancel
+
+block script
+  script.
+    function toggleRole(classBtn, className) {
+      var state = $(classBtn).prop('checked');
+      $(className).prop('checked', state);
+    }

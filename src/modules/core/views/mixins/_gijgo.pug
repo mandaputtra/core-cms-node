@@ -1,0 +1,13 @@
+mixin gijgoCss()
+  link(href='/static/css/gijgo.min.css' rel='stylesheet')
+
+mixin gijgoJs()
+  script(src='/static/components/gijgo.min.js')
+  script.
+    function dateOpt() {
+      return {
+        uiLibrary: 'bootstrap4',
+        iconsLibrary: 'fontawesome',
+        format: 'yyyy-mm-dd'
+      };
+    }

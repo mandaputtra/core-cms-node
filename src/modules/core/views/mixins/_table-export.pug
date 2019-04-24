@@ -1,0 +1,41 @@
+mixin tableJs(name, cols)
+  script(src='/static/components/xlsx.core.min.js')
+  script(src='/static/components/filesaver.min.js')
+  script(src='/static/components/tableexport.min.js')
+  script.
+    var ExportButtons = document.getElementById('print');
+
+    var instance = new TableExport(ExportButtons, {
+      formats: ['xlsx'],
+      exportButtons: false,
+      filename: '#{name}',
+      ignoreCols: #{cols || 'null'}
+    });
+
+    var exportData = instance.getExportData()['print']['xlsx'];
+    $('#export').click(function (e) {
+      instance.export2file(exportData.data, exportData.mimeType, exportData.filename, exportData.fileExtension);
+    });
+
+mixin tableSort()
+  script.
+    function sortTable(col, e) {
+      var $this = $(e.target);
+      var $form = $('form');
+      var $order = $form.find('input[name="order"]');
+      var $col = $form.find('input[name="sort"]');
+      var order = $order && $order.val() === 'asc' && $col.val() === col ? 'desc' : 'asc';
+      $form.find('input.sort').remove();
+      $form.append('<input name="sort" value="'+ col +'" type="hidden" />' +
+        '<input name="order" value="'+ order +'" type="hidden" />');
+      $form.submit();
+    }
+
+mixin exportBtn(theLink)
+  script.
+    $('#export').click(function (e) {
+      e.preventDefault()
+      var query = $('form').serialize();
+      console.log('#{theLink || link}/export?' + query, '_blank');
+      window.open('#{theLink || link}/export?' + query, '_blank');
+    });

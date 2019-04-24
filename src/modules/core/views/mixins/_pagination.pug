@@ -1,0 +1,50 @@
+mixin pagination()
+  nav
+    - let n = page - 2 < 1 ? 1 : page - 2
+    - const end = page + (page < 3 ? 5 - n : 2)
+    | Page #{page} of #{pageCount} from #{rowCount} data
+    ul.pagination.mb-0.mt-1
+      if page > 3
+        li.page-item
+          a.page-link(onclick=`changePage(1)` data-toggle="tooltip" data-placement="bottom" title="First Page")
+            i.fa.fa-angle-double-left
+      if page > 1
+        li.page-item
+          a.page-link(onclick=`changePage(${page - 1})` data-toggle="tooltip" data-placement="bottom" title="Previous Page")
+            i.fa.fa-angle-left
+      while n <= pageCount && n <= end
+        if n === page
+          li.page-item.active
+            a.page-link() #{n++}
+        else
+          li.page-item
+            a.page-link(onclick=`changePage(${n})`) #{n++}
+      if page < pageCount
+        li.page-item
+          a.page-link(onclick=`changePage(${page + 1})` data-toggle="tooltip" data-placement="bottom" title="Next Page")
+            i.fa.fa-angle-right
+      if end < pageCount
+        li.page-item
+          a.page-link(onclick=`changePage(${pageCount})` data-toggle="tooltip" data-placement="bottom" title="Last Page")
+            i.fa.fa-angle-double-right
+
+mixin paginationInit(href)
+  if href
+    script.
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      })
+
+      function changePage(page) {
+        document.location.href = '#{href}?page=' + page;
+      }
+  else
+    script.
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      })
+
+      function changePage(page) {
+        $('#page').val(page);
+        $('form').submit();
+      }

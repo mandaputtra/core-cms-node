@@ -1,0 +1,17 @@
+mixin collapse()
+  .form-group.mr-auto.ml-auto.col-md-3.col-sm-8
+    .input-group
+      .input-group-btn
+        button#collapse-btn.input-group-addon(data-toggle='collapse' data-target='#collapseFilter' aria-expanded='false' aria-controls='collapseFilter') Show Search
+      input#row-size.form-control(name='pageSize' type='text' placeholder='Row Size' value=pageSize)
+      .input-group-btn
+        button.input-group-addon(type='submit') Search
+
+mixin collapseJs()
+  script.
+    $('#collapseFilter').on('shown.bs.collapse', function () {
+      $('#collapse-btn').html('Hide Search');
+    });
+    $('#collapseFilter').on('hidden.bs.collapse', function () {
+      $('#collapse-btn').html('Show Search');
+    });

@@ -1,0 +1,18 @@
+mixin alert(flashes, divType)
+  block alerts
+    if flashes
+      - const types = Object.keys(flashes)
+      each type in types
+        if type === 'delete'
+          input#deleteTemp(type='hidden' value=flashes['delete'][0])
+        else
+          // Check if it's the correct alert for a div
+          // e.g. type = sector.danger for sector div
+          if !divType || type.split('.')[0] === divType
+            each message in flashes[type]
+              - type = divType ? type.split('.')[1] : type;
+              - type = type === 'error' ? 'danger' : type;
+              .alert.alert-dismissible.fade.show.col-md-12(class=`alert-${type}` role='alert')
+                button.close(type='button' data-dismiss='alert' aria-label='Close')
+                  span(aria-hidden='true') &times;
+                != message

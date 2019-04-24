@@ -1,0 +1,30 @@
+doctype html
+//
+  * CoreUI - Open Source Bootstrap Admin Template
+  * @version v1.0.0-alpha.6
+  * @link http://coreui.io
+  * Copyright (c) 2017 creativeLabs Łukasz Holeczek
+  * @license MIT
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='Alpha JWC Ventures')
+    meta(name='keyword', content='Example test, Example test, Example test, Example test')
+    title Example Admin CMS Login
+    title Admin Login
+    // Icons
+    link(href='/static/css/font-awesome.min.css', rel='stylesheet')
+    link(href='/static/css/simple-line-icons.css', rel='stylesheet')
+    // Main styles for this application
+    link(href='/static/css/style.min.css', rel='stylesheet')
+    block head
+  body.app.flex-row.align-items-center
+    .container
+      .row.justify-content-center
+        // Bootstrap and necessary plugins
+        block content
+    block script
+    script(src='/static/components/jquery.min.js')
+    script(src='/static/components/bootstrap.min.js')

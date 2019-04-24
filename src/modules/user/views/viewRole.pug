@@ -1,0 +1,34 @@
+extends ../../core/views/layouts/default.pug
+
+include ../../core/views/mixins/_alert.pug
+include ../../core/views/mixins/_modal.pug
+
+block content
+  .row
+    .col-md-12
+      .card
+        .card-header Role List
+          if userPermissions.includes(permissions.ROLE_ADD)
+            a.card-head-add(href=`${link}/add`)
+              i.icon-plus.mr-1
+              | Add New
+        .card-body
+          +alert(flashes)
+          table.table.table-bordered.table-striped
+            thead
+              tr
+                th Name
+                if userPermissions.includes(permissions.ROLE_EDIT) || userPermissions.includes(permissions.ROLE_DELETE)
+                  th.action-col Action
+            tbody
+              each item, index in items
+                tr
+                  td= item.name
+                  if userPermissions.includes(permissions.ROLE_EDIT) || userPermissions.includes(permissions.ROLE_DELETE)
+                    td
+                      if userPermissions.includes(permissions.ROLE_EDIT)
+                        a.btn.btn-sm.btn-primary.mr-1(href=`${link}/edit/${item.id}`) Edit
+                      if userPermissions.includes(permissions.ROLE_DELETE)
+                        button.btn.btn-sm.btn-danger(onclick=`$("#modalBtn").attr("href", "${link}/delete/${item.id}")` data-toggle='modal' data-target='#myModal') Delete
+
+      +deleteModal(`Delete ${title}`, 'Are you sure?')
