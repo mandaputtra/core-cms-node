@@ -3,7 +3,7 @@
 
 
 The purpose for this project are for learning and sharing. You can use this project as your go
-to CMS if there is a project that may need. the stack used by this CMS. I almost use this for everything on
+to CMS if there is a project that may need. I almost use this for everything on
 my project because I was a one man programmer back-then when it comes to code node.js. I build new ones someday with new stack, actually it is almost finished [vf-cms](https://github.com/mandaputtra/vf-cms). I just dont have more enough time again :sad: . This project uses this stack, it almost fast as it get if I may say, just bench mark yourself :smile:
 
 1. Express
