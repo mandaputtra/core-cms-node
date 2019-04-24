@@ -3,7 +3,7 @@
 
 
 The purpose for this project are for learning and sharing. You can use this project as your go
-to CMS if there is a project that may need. the stack used by this CMS. I almost use this for everything on
+to CMS if there is a project that may need. I almost use this for everything on
 my project because I was a one man programmer back-then when it comes to code node.js. I build new ones someday with new stack, actually it is almost finished [vf-cms](https://github.com/mandaputtra/vf-cms). I just dont have more enough time again :sad: . This project uses this stack, it almost fast as it get if I may say, just bench mark yourself :smile:
 
 1. Express
@@ -12,6 +12,7 @@ my project because I was a one man programmer back-then when it comes to code no
 4. Babel
 5. Knex.js / Bookshelf
 6. Mysql
+7. Icons : https://simplelineicons.github.io/
 
 I've been making this on my office time, this help me a lot as a go to project. when i need a CMS
 on my project. The code are now OpenSource as it deployed on github in first day. Please feel free to open up
