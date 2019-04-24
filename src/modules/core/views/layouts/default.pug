@@ -47,6 +47,11 @@ html(lang='en')
                 a.nav-link.nav-title(href='/roles')
                   i.icon-lock
                   | Role
+            if userPermissions.includes(permissions.VIDEO_VIEW)
+              li.nav-item
+                a.nav-link.nav-title(href='/video')
+                  i.icon-social-steam
+                  | Video
 
       main.main
         ol.breadcrumb

@@ -123,7 +123,7 @@ UserController.editRoleView = async (req, res, next) => {
   const role = await Role.get({ id: req.params.id }, ['permissions']);
   if (!role) return next(error('danger', roleMsg.not_found, 'roles'));
   const perms = formatPermissions(permissions);
-  res.render('user/views/createRole', {
+  return res.render('user/views/createRole', {
     link: '/roles',
     type: 'edit',
     permissionList: perms,

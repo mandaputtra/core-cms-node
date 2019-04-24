@@ -14,6 +14,7 @@ import config from '../config';
 import c from './constants';
 import core from './modules/core';
 import user from './modules/user';
+import video from './modules/video';
 
 const RedisStore = require('connect-redis')(session);
 
@@ -84,6 +85,7 @@ app.use(core.middleware.requestLoggerMiddleware());
 
 app.use(core.routes);
 app.use(user.routes);
+app.use(video.routes);
 
 
 app.use((req, res) => {

@@ -7,6 +7,7 @@ export const permissions = {
   ROLE_EDIT: 6,
   ROLE_VIEW: 7,
   ROLE_DELETE: 8,
+  VIDEO_VIEW: 9,
 };
 
 export default { permissions };
