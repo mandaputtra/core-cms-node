@@ -36,11 +36,17 @@ There a *backup mysql* database there, import it first it fills up with users an
 $ yarn
 $ yarn start
 ```
+### Passwords
+
+```
+email : admin@admin.com
+password : admin@admin.com
+```
 
 and the project will be run! if not tell me then ...
 
 ### Where is the ...?
-The folder structure is damn simple I place all routes controller on `src/modules/` Please when using this leverage the modlue system of javascript.
+The folder structure is damn simple I place all routes controller on `src/modules/` Please when using this leverage the module system of javascript.
 Just pretend like `index.js` are source of everythings!
 
 Example is the folder user on `src/modules/user` if you want to access the model you could just access it from `index.js`
