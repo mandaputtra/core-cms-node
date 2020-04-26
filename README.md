@@ -1,11 +1,6 @@
 # Another Built Express CMS
 ### Just a simple CMS to get started
 
-
-The purpose for this project are for learning and sharing. You can use this project as your go
-to CMS if there is a project that may need. I almost use this for everything on
-my project because I was a one man programmer back-then when it comes to code node.js. I build new ones someday with new stack, actually it is almost finished [vf-cms](https://github.com/mandaputtra/vf-cms). I just dont have more enough time again :sad: . This project uses this stack, it almost fast as it get if I may say, just bench mark yourself :smile:
-
 1. Express
 2. Redis
 3. Pug (Templating)
@@ -19,9 +14,9 @@ on my project. The code are now OpenSource as it deployed on github in first day
 issue on security or whatever to improve this code and CMS.
 
 ### Important
+
 I do not updated again this CMS ill prepare to make the new one because this time I really love to use REST API a lot
-its simple for me as a fullstack dev, and I can leverage more power on front-end. **HOWEVER** Ill still maintain it if anyone do pull request or
-something ill be very thankfull 💗
+its simple for me as a fullstack dev, and I can leverage more power on front-end. **HOWEVER** Ill still maintain it if anyone do pull request or something ill be very thankfull 💗
 
 Okay now for Documentation you can read it below (or you can just read the code):
 
