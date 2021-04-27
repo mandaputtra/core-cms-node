@@ -43,7 +43,7 @@
     "passport-local": "^1.0.0",
     "pug": "^2.0.0-beta11",
     "raven": "^2.4.2",
-    "redis": "^2.6.3",
+    "redis": "^3.1.1",
     "response-time": "^2.3.2",
     "sendgrid": "^4.7.1",
     "serve-favicon": "^2.3.2",
